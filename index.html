@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClipTTS — la voce che vive nella clipboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --bg: #0b0c10;
+    --bg-elevated: #14161c;
+    --bg-elevated-2: #1a1d25;
+    --line: #23262e;
+    --blue: #2f9bf0;
+    --blue-soft: #7fc4ff;
+    --white: #f5f6f8;
+    --gray: #9aa0ab;
+    --gray-dim: #676d78;
+    --radius: 14px;
+    --max: 1020px;
+  }
+
+  *{ box-sizing: border-box; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'IBM Plex Sans', sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,h2,h3{
+    font-family: 'Space Grotesk', sans-serif;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+
+  .mono{
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  a{ color: inherit; }
+
+  :focus-visible{
+    outline: 2px solid var(--blue-soft);
+    outline-offset: 3px;
+  }
+
+  .wrap{
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ---------------------------------------------------
+     NAV
+  --------------------------------------------------- */
+
+  header{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(11,12,16,0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  nav{
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    padding: 24px 32px;
+    max-width: var(--max);
+    margin: 0 auto;
+    gap: 40px;
+  }
+
+  .logo{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: 0;
+    flex-shrink: 0;
+    height: 52px;
+  }
+
+  .logo-image{
+    height: 46px;
+    width: auto;
+    display: block;
+  }
+
+  .nav-cta{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: var(--blue);
+    color: #08101c;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background .15s ease;
+  }
+
+  .nav-cta:hover{ background: var(--blue-soft); }
+
+  /* ---------------------------------------------------
+     ONDA — divisore
+  --------------------------------------------------- */
+
+  .onda{
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    gap: 5px;
+    height: 40px;
+    margin: 0 auto;
+    opacity: 0.55;
+  }
+
+  .onda span{
+    width: 4px;
+    background: var(--blue);
+    border-radius: 2px;
+    display:block;
+  }
+
+  .onda-sezione{
+    padding: 80px 0 50px;
+  }
+
+  /* ---------------------------------------------------
+     HERO
+  --------------------------------------------------- */
+
+  .hero{
+    padding: 100px 0 70px;
+  }
+
+  .hero-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 70px;
+    align-items:center;
+  }
+
+  .eyebrow{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--blue-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 20px;
+    display:block;
+  }
+
+  .hero h1{
+    font-size: clamp(2.2rem, 5vw, 3.2rem);
+    line-height: 1.15;
+    margin-bottom: 26px;
+  }
+
+  /* Effetto "clipboard" appena selezionata */
+  .hero h1 .accent{
+    position: relative;
+    display: inline-block;
+    color: #fff;
+    background: #1f56c4;
+    padding: 0 .035em .02em;
+    line-height: .96;
+  }
+
+  .hero h1 .accent::after{
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 24px;
+    right: -13px;
+    bottom: -15px;
+    background: #fff;
+    border: 2px solid #111;
+    clip-path: polygon(
+      0 0,
+      0 100%,
+      29% 73%,
+      45% 100%,
+      59% 93%,
+      43% 66%,
+      100% 66%
+    );
+    transform: rotate(-2deg);
+    filter: drop-shadow(1px 1px 1px rgba(0,0,0,.65));
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .hero p.lede{
+    color: var(--gray);
+    font-size: 1.12rem;
+    max-width: 50ch;
+    margin-bottom: 40px;
+    line-height: 1.7;
+  }
+
+  .cta-row{
+    display:flex;
+    align-items:center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary{
+    display:inline-flex;
+    align-items:center;
+    gap: 10px;
+    background: var(--blue);
+    color: #08101c;
+    font-weight: 600;
+    text-decoration:none;
+    padding: 14px 28px;
+    border-radius: 10px;
+    font-size: 0.98rem;
+    transition: transform .12s ease, background .15s ease;
+  }
+
+  .btn-primary:hover{ background: var(--blue-soft); transform: translateY(-2px); }
+
+  .cta-meta{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--gray-dim);
+  }
+
+  .hero-shot{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width: 100%;
+  }
+
+  .hero-shot img{
+    max-width: 100%;
+    height: auto;
+    border-radius: 16px;
+    border: 1px solid var(--line);
+    box-shadow: 0 40px 80px -20px rgba(0,0,0,0.7);
+    display:block;
+    margin: 0 auto;
+  }
+
+  /* ---------------------------------------------------
+     SEZIONE QUIETA
+  --------------------------------------------------- */
+
+  .perche{
+    padding: 30px 0 80px;
+    max-width: 68ch;
+  }
+
+  .perche h2{
+    font-size: 1.95rem;
+    margin-bottom: 28px;
+  }
+
+  .perche p{
+    color: var(--gray);
+    font-size: 1.12rem;
+    line-height: 1.85;
+  }
+
+  .perche p + p{ margin-top: 18px; }
+
+  /* ---------------------------------------------------
+     COME FUNZIONA
+  --------------------------------------------------- */
+
+  .passi{
+    padding: 0 0 80px;
+  }
+
+  .passi h2{
+    font-size: 1.7rem;
+    margin-bottom: 42px;
+  }
+
+  .passi-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+
+  .passo{
+    padding: 26px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+
+  .passo .num{
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--blue-soft);
+    font-size: 0.8rem;
+    display:block;
+    margin-bottom: 12px;
+  }
+
+  .passo h3{
+    font-size: 1.12rem;
+    margin-bottom: 10px;
+  }
+
+  .passo p{
+    color: var(--gray);
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  /* ---------------------------------------------------
+     TESSERE — funzioni
+  --------------------------------------------------- */
+
+  .tessere-intro{
+    padding: 20px 0 50px;
+  }
+
+  .tessere-intro h2{
+    font-size: 1.7rem;
+    margin-bottom: 16px;
+  }
+
+  .tessere-intro p{
+    color: var(--gray);
+    font-size: 1.02rem;
+    max-width: 70ch;
+  }
+
+  .tessere{
+    padding: 0 0 80px;
+  }
+
+  .tessere-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 28px;
+  }
+
+  .tessera{
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg-elevated);
+    overflow:hidden;
+    transition: border-color .15s ease;
+  }
+
+  .tessera:hover{ border-color: var(--blue-soft); }
+
+  .tessera-img{
+    aspect-ratio: 4/3;
+    background: var(--bg-elevated-2);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color: var(--gray-dim);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    text-align:center;
+    padding: 16px;
+    overflow: hidden;
+  }
+
+  .tessera-img img{
+    max-width: 100%;
+    height: 100%;
+    object-fit: contain;
+    cursor: pointer;
+    transition: opacity .2s ease;
+  }
+
+  .tessera-img img:hover{
+    opacity: 0.8;
+  }
+
+  /* ---------------------------------------------------
+     LIGHTBOX
+  --------------------------------------------------- */
+
+  .lightbox{
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .lightbox.active{
+    display: flex;
+  }
+
+  .lightbox-content{
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+  }
+
+  .lightbox-content img{
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+  }
+
+  .lightbox-close{
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: none;
+    border: none;
+    color: var(--white);
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color .2s ease;
+  }
+
+  .lightbox-close:hover{
+    color: var(--blue-soft);
+  }
+
+  .tessera-cap{
+    padding: 18px 20px;
+  }
+
+  .tessera-cap h3{
+    font-size: 1rem;
+    margin-bottom: 6px;
+  }
+
+  .tessera-cap p{
+    color: var(--gray);
+    font-size: 0.88rem;
+    margin: 0;
+  }
+
+  /* ---------------------------------------------------
+     DOWNLOAD
+  --------------------------------------------------- */
+
+  .download{
+    padding: 50px 0 100px;
+  }
+
+  .download-box{
+    background: var(--bg-elevated);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 56px;
+    text-align:center;
+  }
+
+  .download-box h2{
+    font-size: 2rem;
+    margin-bottom: 16px;
+  }
+
+  .download-box p{
+    color: var(--gray);
+    max-width: 52ch;
+    margin: 0 auto 36px;
+    font-size: 1.02rem;
+  }
+
+  .manual-links{
+    margin-top: 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--gray-dim);
+  }
+
+  .manual-links a{
+    color: var(--gray);
+    text-decoration: none;
+    margin: 0 5px;
+  }
+
+  .manual-links a:hover{
+    color: var(--blue-soft);
+  }
+
+  .req-row{
+    display:flex;
+    justify-content:center;
+    gap: 26px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+
+  .req{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--gray-dim);
+    display:flex;
+    align-items:center;
+    gap: 8px;
+  }
+
+  .req .dot{
+    width:6px; height:6px; border-radius:50%;
+    background: var(--blue);
+    display:inline-block;
+  }
+
+  /* ---------------------------------------------------
+     FOOTER
+  --------------------------------------------------- */
+
+  footer{
+    border-top: 1px solid var(--line);
+    padding: 32px 0;
+  }
+
+  footer .wrap{
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  footer p{
+    color: var(--gray-dim);
+    font-size: 0.82rem;
+    margin:0;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* ---------------------------------------------------
+     RESPONSIVE
+  --------------------------------------------------- */
+
+  @media (max-width: 900px){
+    .hero-grid{ grid-template-columns: 1fr; gap: 50px; }
+    .hero-shot{ order:-1; }
+    .passi-grid{ grid-template-columns: repeat(2, 1fr); }
+    .wrap{ padding: 0 28px; }
+    nav{ padding: 18px 28px; }
+  }
+
+  @media (max-width: 600px){
+    .passi-grid{ grid-template-columns: 1fr; }
+    .wrap{ padding: 0 20px; }
+    nav{ padding: 16px 20px; }
+    .hero h1{ font-size: 1.8rem; }
+    .download-box{ padding: 40px 24px; }
+    .req-row{ gap: 16px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    .btn-primary{ transition:none; }
+  }
+
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <div class="logo">
+      <img src="logo_nav_cropped.png" alt="ClipTTS" class="logo-image">
+    </div>
+    <a class="nav-cta" href="#download">Scarica</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">Locale · Offline · Immediato</span>
+        <h1>La voce che vive già nella tua <span class="accent">clipboard</span>.</h1>
+        <p class="lede">Copi un testo, ClipTTS lo legge. Nessun account, nessuna connessione, nessuna finestra da aprire apposta — se sai già copiare un testo, sai già usare ClipTTS.</p>
+        <div class="cta-row">
+          <a class="btn-primary" href="#download">
+            ↓ Scarica per Windows
+          </a>
+          <span class="cta-meta">nessuna installazione · avvia direttamente l'EXE</span>
+        </div>
+      </div>
+      <div class="hero-shot">
+        <img src="clipts-main-hero.png" alt="Interfaccia di ClipTTS con tasti, voce, velocità e lingua">
+      </div>
+    </div>
+  </section>
+
+  <div class="onda onda-sezione" aria-hidden="true">
+    <span style="height:12px"></span><span style="height:24px"></span><span style="height:16px"></span>
+    <span style="height:32px"></span><span style="height:20px"></span><span style="height:28px"></span>
+    <span style="height:14px"></span><span style="height:22px"></span><span style="height:12px"></span>
+  </div>
+
+  <section class="perche wrap">
+    <h2>Perché esiste</h2>
+    <p>L'ho cercato per settimane: un lettore vocale locale, con una voce abbastanza naturale da non farmi passare la voglia di scrivere. Non l'ho trovato — così l'ho costruito.</p>
+    <p>Il punto di partenza è stato semplice: la clipboard è già il collegamento che Windows offre tra ogni programma. ClipTTS lo usa come punto d'ingresso universale — non è un'altra finestra da aprire, è quella che ti segue dove sei già.</p>
+  </section>
+
+  <section class="passi wrap">
+    <h2>Come funziona</h2>
+    <div class="passi-grid">
+      <div class="passo">
+        <span class="num mono">01</span>
+        <h3>Copi un testo</h3>
+        <p>Da Obsidian, dal browser, da un editor, da qualunque punto del tuo PC.</p>
+      </div>
+      <div class="passo">
+        <span class="num mono">02</span>
+        <h3>ClipTTS si accorge da solo</h3>
+        <p>Torna in primo piano automaticamente, pronto. Oppure resta nella Tray Icon: premi Play da lì. Nessuna scorciatoia da ricordare.</p>
+      </div>
+      <div class="passo">
+        <span class="num mono">03</span>
+        <h3>Premi play</h3>
+        <p>Dieci voci, trentadue lingue, correzione della pronuncia al volo. Tutto locale.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="onda onda-sezione" aria-hidden="true">
+    <span style="height:16px"></span><span style="height:10px"></span><span style="height:26px"></span>
+    <span style="height:14px"></span><span style="height:30px"></span><span style="height:16px"></span>
+    <span style="height:22px"></span><span style="height:12px"></span><span style="height:20px"></span>
+  </div>
+
+  <section class="wrap tessere-intro">
+    <h2>Ogni funzione, in azione</h2>
+    <p>Qui sotto: screenshot reali di ClipTTS.</p>
+  </section>
+
+  <section class="tessere wrap">
+    <div class="tessere-grid">
+
+      <div class="tessera">
+        <div class="tessera-img">
+          <img src="clipts-backgrounds-composite.png" alt="ClipTTS con i temi Obsidian Black e Blue Light">
+        </div>
+        <div class="tessera-cap">
+          <h3>14 temi inclusi</h3>
+          <p>Scegli il tuo stile o usa qualsiasi sfondo PNG nel formato corretto.</p>
+        </div>
+      </div>
+
+      <div class="tessera">
+        <div class="tessera-img">
+          <img src="clipts-vis.png" alt="Popup VIS: vedi e correggi il testo copiato">
+        </div>
+        <div class="tessera-cap">
+          <h3>VIS — Vedi il testo</h3>
+          <p>Copia un testo, il popup VIS ti mostra cosa sta per leggere.</p>
+        </div>
+      </div>
+
+      <div class="tessera">
+        <div class="tessera-img">
+          <img src="clipts-mod.png" alt="Popup MOD: correggi una pronuncia">
+        </div>
+        <div class="tessera-cap">
+          <h3>MOD — Pronuncia al volo</h3>
+          <p>Se una parola non suona bene, la correggi in un click.</p>
+        </div>
+      </div>
+
+      <div class="tessera">
+        <div class="tessera-img">
+          <img src="clipts-drag-window.png" alt="ClipTTS trascinabile da qualsiasi punto libero dell'interfaccia">
+        </div>
+        <div class="tessera-cap">
+          <h3>Finestra trascinabile</h3>
+          <p>Puoi afferrare e spostare ClipTTS da qualsiasi punto libero dell'interfaccia: non serve prenderla dalla barra del titolo.</p>
+        </div>
+      </div>
+
+      <div class="tessera">
+        <div class="tessera-img">
+          <img src="clipts-dragdrop.png" alt="Trascinamento file: un documento verso ClipTTS">
+        </div>
+        <div class="tessera-cap">
+          <h3>Trascinamento file</h3>
+          <p>Testo, .docx, .pdf — trascinali sulla finestra, in qualsiasi punto, e legge subito.</p>
+        </div>
+      </div>
+
+      <div class="tessera">
+        <div class="tessera-img">
+          <img src="clipts-wavplayer-rec.png" alt="ClipTTS: registrazione REC e WavPlayer per riascoltare il WAV">
+        </div>
+        <div class="tessera-cap">
+          <h3>Registra e riascolta</h3>
+          <p>Premi REC, salva in WAV e riascolta con velocità regolabile.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="wrap download" id="download">
+    <div class="download-box">
+      <h2>ClipTTS</h2>
+      <p>Un unico eseguibile. Portatile, senza account e completamente offline.</p>
+      <a class="btn-primary" href="#">↓ Scarica ClipTTS.exe</a>
+      <div class="manual-links">
+        <span>Manuale utente:</span>
+        <a href="manuali/ClipTTS-Manuale-IT.md" download>Italiano</a>
+        <span>·</span>
+        <a href="manuali/ClipTTS-Manual-EN.md" download>English</a>
+      </div>
+      <div class="req-row">
+        <span class="req"><span class="dot"></span>Windows</span>
+        <span class="req"><span class="dot"></span>~300 MB</span>
+        <span class="req"><span class="dot"></span>Completamente offline</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <div class="lightbox-content">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <img id="lightbox-img" src="" alt="">
+  </div>
+</div>
+
+<script>
+function openLightbox(imgSrc) {
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  lightboxImg.src = imgSrc;
+  lightbox.classList.add('active');
+}
+
+function closeLightbox() {
+  const lightbox = document.getElementById('lightbox');
+  lightbox.classList.remove('active');
+}
+
+// Click su immagini nelle tessere
+document.querySelectorAll('.tessera-img img').forEach(img => {
+  img.addEventListener('click', function() {
+    openLightbox(this.src);
+  });
+});
+
+// Chiudi lightbox con ESC
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeLightbox();
+  }
+});
+
+// Chiudi lightbox cliccando fuori
+document.getElementById('lightbox').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeLightbox();
+  }
+});
+</script>
+
+<footer>
+  <div class="wrap">
+    <p>ClipTTS</p>
+    <p>costruito per non passare la voglia di scrivere</p>
+  </div>
+</footer>
+
+</body>
+</html>
