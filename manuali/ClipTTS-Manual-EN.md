@@ -6,6 +6,8 @@ ClipTTS listens to your clipboard. Copy text from any app (browser, Obsidian, te
 
 If the "bring to foreground on every copy" behavior bothers you, you can disable it from the tray icon menu.
 
+You can also go further and turn on **autoplay**: copy a text, and ClipTTS reads it on its own — no need to open the interface or press PLAY. You don't even need the tray icon for this: just copy, and it speaks.
+
 ---
 
 ## Main buttons
@@ -47,8 +49,8 @@ ClipTTS supports 32 languages. Select the language of the text you're about to r
 ### Background
 Customize the visual theme. 14 different themes are available. Pick the one you prefer.
 
-### Words per group (default: 30)
-Technical parameter that controls playback attack speed. Leave it at the default value unless you have specific needs.
+### Words per group (default: 10)
+Technical parameter that controls playback attack speed: the lower the number, the sooner audio starts after pressing Play. With the default value, playback starts in under 3 seconds, regardless of text length — running on CPU alone, no GPU required. Raise the value if you prefer smoother speech from the first group onward, at the cost of a slightly slower start.
 
 ---
 
@@ -62,6 +64,8 @@ If your clipboard is empty, ClipTTS will show it clearly both on the interface a
 
 ### Tray icon
 When you minimize ClipTTS to the tray (bottom right corner), you can still control it from there: PLAY, STOP, PAUSE are available directly from the tray menu. Useful to keep listening without taking up screen space.
+
+**A left click on the tray icon turns autoplay on or off.** A colored icon means autoplay is on; gray means it's off. With autoplay on, any text you copy is read immediately, automatically — one click controls everything, no need to open menus or windows.
 
 ---
 

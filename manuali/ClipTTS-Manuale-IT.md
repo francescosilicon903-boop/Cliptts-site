@@ -6,6 +6,8 @@ ClipTTS ascolta la tua clipboard. Copi un testo da qualunque app (browser, Obsid
 
 Se il comportamento di "torna in primo piano ad ogni copia" ti disturba, puoi disattivarlo dal menu tray icon.
 
+Puoi anche andare oltre e attivare l'**autoplay**: copi un testo, e ClipTTS lo legge da solo — senza che tu debba aprire l'interfaccia né premere PLAY. Non serve nemmeno la tray icon per questo: basta copiare, e parla.
+
 ---
 
 ## I pulsanti principali
@@ -47,8 +49,8 @@ ClipTTS supporta 32 lingue. Seleziona quella del testo che stai per far leggere.
 ### Sfondo
 Personalizza il tema visivo. Sono disponibili 14 temi diversi. Scegli quello che preferisci.
 
-### Parole per gruppo (default: 30)
-Parametro tecnico che controlla la velocità di attacco della riproduzione. Lascialo al valore predefinito a meno che tu non abbia esigenze particolari.
+### Parole per gruppo (default: 10)
+Parametro tecnico che controlla la velocità di attacco della riproduzione: più basso è il numero, prima parte l'audio dopo aver premuto Play. Con il valore predefinito parte in meno di 3 secondi, indipendentemente dalla lunghezza del testo — girando solo su CPU, nessuna GPU richiesta. Alza il valore se preferisci un discorso più fluido fin dal primo gruppo, a scapito di un attacco leggermente più lento.
 
 ---
 
@@ -62,6 +64,8 @@ Se la clipboard è vuota, ClipTTS lo mostrerà chiaramente sia sull'interfaccia 
 
 ### Tray icon
 Quando minimizzi ClipTTS nel tray (angolo in basso a destra), puoi ancora controllarlo da lì: PLAY, STOP, PAUSA sono disponibili direttamente dal menu del tray. Utile per continuare l'ascolto senza occupare spazio sullo schermo.
+
+**Un click sinistro sulla tray icon accende o spegne l'autoplay.** L'icona a colori significa autoplay attivo; grigia significa spento. Con l'autoplay acceso, ogni testo che copi viene letto subito, in automatico — un solo click controlla tutto, senza bisogno di aprire menu o finestre.
 
 ---
 
