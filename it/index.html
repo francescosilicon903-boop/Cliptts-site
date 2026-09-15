@@ -642,11 +642,31 @@
   .footer-credit-row{
     justify-content: flex-start;
     margin-top: 14px;
+    gap: 14px;
   }
 
   .footer-credit{
     font-size: 0.72rem;
     opacity: 0.6;
+  }
+
+  .footer-email{
+    font-size: 0.72rem;
+    color: var(--gray-dim);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color .15s ease, color .15s ease;
+  }
+
+  .footer-email:hover{
+    color: var(--blue);
+    border-bottom-color: var(--blue);
+  }
+
+  .footer-sep{
+    font-size: 0.72rem;
+    color: var(--gray-dim);
+    opacity: 0.4;
   }
 
   .autoplay-note{
@@ -959,6 +979,8 @@ document.getElementById('lightbox').addEventListener('click', function(e) {
   </div>
   <div class="wrap footer-credit-row">
     <p class="footer-credit">Powered by Supertonic 3</p>
+    <span class="footer-sep">·</span>
+    <a class="footer-email" href="mailto:support@fabricsoftware.dev">support@fabricsoftware.dev</a>
   </div>
 </footer>
 
