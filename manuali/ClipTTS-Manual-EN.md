@@ -22,16 +22,20 @@ Stops playback immediately.
 Pauses playback. When you press it again, playback resumes from the exact point where you stopped — at the end of a sentence.
 
 ### VIS
-Opens a popup showing **everything** currently in your clipboard, exactly as ClipTTS will read it. Useful to check what's about to be read before pressing PLAY.
+Opens a popup showing **everything** currently in your clipboard, exactly as ClipTTS will read it — and you can edit it right there. Two buttons: "Save to clipboard" (saves your edits to the clipboard, without playing) or "Play" (saves and immediately reads the corrected text).
 
 ### MOD
-Corrects the pronunciation of a single word on the fly. Select a field in the popup, type the correction (e.g., "Accento" becomes "Accentó"), and save. It also works with synonyms, acronyms, or completely unrelated words — useful if you want ClipTTS to read "NASA" as "Enne-A-Esse-A" or a name like "Marco" with a particular pronunciation.
+Corrects the pronunciation of a single word on the fly. **Copy the word** (no need to open any window first), then press MOD: a popup opens already filled in with that word, cursor placed right after the "=" sign ready for your correction (e.g., "Accento" becomes "Accentó"). Press Enter or click Save. If you had more than one word copied, MOD only takes the first one. It also works with synonyms, acronyms, or completely unrelated words — useful if you want ClipTTS to read "NASA" as "Enne-A-Esse-A" or a name like "Marco" with a particular pronunciation.
 
 ### T=T
 Opens the pronunciation dictionary. Here you can add permanent rules, or simply view and edit the ones you've saved with MOD.
 
 ### REC
-**Records everything to WAV.** Unlike PLAY which just reads, REC accumulates each synthesis and saves them as a single audio file at the end. Press REC, then PLAY (or multiple PLAYs in sequence), and press REC again to finish and save the file. The file opens automatically in WavPlayer.
+**Records to WAV in a single step.** Copy the text you want recorded, then press REC once: ClipTTS synthesizes the whole text silently, in the background — you won't hear it as it generates. When done, it saves the file automatically and opens WavPlayer on its own.
+
+Pressing REC again **while it's still generating** cancels the whole recording: nothing gets saved.
+
+Alongside the WAV file, ClipTTS also saves a twin text file with the same name, containing the original text — handy for finding out what a recording was about without listening to it again.
 
 ---
 
@@ -41,10 +45,10 @@ Opens the pronunciation dictionary. Here you can add permanent rules, or simply 
 Choose from the available voices. You can change it anytime, even during playback.
 
 ### Speed
-Adjust the reading speed (default: 1.5x). Lower values slow down, higher values speed up.
+Adjust the reading speed (default: 1.2x). Lower values slow down, higher values speed up.
 
 ### Language
-ClipTTS supports 32 languages. Select the language of the text you're about to read. Change it freely while listening.
+ClipTTS supports 31 languages. Select the language of the text you're about to read. Change it freely while listening.
 
 ### Background
 Customize the visual theme. 14 different themes are available. Pick the one you prefer.
@@ -57,7 +61,11 @@ Technical parameter that controls playback attack speed: the lower the number, t
 ## Special behaviors
 
 ### Drag and drop files
-You can drag a file (.txt, .docx, .pdf) directly onto the ClipTTS window. The content is read automatically and copied to your clipboard. Works on any point of the interface.
+You can drag a file directly onto the ClipTTS window. The content is read automatically and copied to your clipboard. Works on any point of the interface.
+
+Supported formats: **.docx**, **.pdf**, and plain text in all its common forms — **.txt, .md, .markdown, .csv, .log, .json, .py, .js, .html, .htm, .xml, .yaml, .yml, .ini, .cfg, .srt**. Code files, subtitles, config files: if it's readable text, ClipTTS opens it.
+
+The PLAY button briefly flashes green if the file was read correctly, red if something went wrong — no popups interrupting what you're doing.
 
 ### Empty clipboard
 If your clipboard is empty, ClipTTS will show it clearly both on the interface and in the taskbar. Nothing happens if you press PLAY.
@@ -66,6 +74,12 @@ If your clipboard is empty, ClipTTS will show it clearly both on the interface a
 When you minimize ClipTTS to the tray (bottom right corner), you can still control it from there: PLAY, STOP, PAUSE are available directly from the tray menu. Useful to keep listening without taking up screen space.
 
 **A left click on the tray icon turns autoplay on or off.** A colored icon means autoplay is on; gray means it's off. With autoplay on, any text you copy is read immediately, automatically — one click controls everything, no need to open menus or windows.
+
+Turning autoplay off with that click also stops any playback that's happening **right then** — it doesn't wait for it to finish. One click stops everything and turns it off together.
+
+If a REC session is running, autoplay is ignored entirely: copying new text won't interrupt or restart the recording.
+
+**Start with Windows**: from the tray icon menu, you can enable ClipTTS launching automatically every time you sign in to Windows. No administrator rights needed. Available only in the version downloaded from the site, not when running the program from source.
 
 ---
 
@@ -91,11 +105,9 @@ Files are never deleted automatically — you manage them.
 
 ## Localization
 
-ClipTTS automatically detects your Windows system language:
-- **Italian** → interface in Italian
-- **Other language** → interface in English
+ClipTTS starts in **English** by default. To change it, open the tray icon menu → **Interface language** → choose English or Italiano. Your choice is saved for next time.
 
-There's no manual selection. The TTS voice language (the "Language" dropdown) remains separate from the interface.
+This is the *interface* language (buttons, popups). The TTS voice language (the "Language" dropdown in the main window) is entirely separate and doesn't change with this setting.
 
 ---
 
@@ -109,3 +121,6 @@ There's no manual selection. The TTS voice language (the "Language" dropdown) re
 ---
 
 **Questions?** If anything isn't clear, look at the buttons on the interface — every function is visible and straightforward.
+
+Website: [https://fabricsoftware.dev](https://fabricsoftware.dev)
+Contact: [support@fabricsoftware.dev](mailto:support@fabricsoftware.dev)
