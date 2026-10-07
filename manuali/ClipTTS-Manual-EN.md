@@ -111,9 +111,32 @@ This is the *interface* language (buttons, popups). The TTS voice language (the 
 
 ---
 
+## License
+
+On first launch you need internet once: enter the `CLIP-...` key from your purchase email and press **Activate** (right-click → Paste works in the field). If the key is valid you see `✓ License activated` and the program starts.
+
+The **LIC** button at the top right (mirroring VIS) opens the license panel: licensed-to (name/email), product (1 PC or 3 PC), masked key and the date of the last check. Three buttons:
+
+- **Retry**: forces an immediate validation (handy after freeing a seat in the portal).
+- **Change key**: frees the seat of the current key (internet needed) and asks for a new key.
+- **Deactivate on this PC**: frees the seat (1/3 PCs) to move the program — the key stays valid. It asks for confirmation; after deactivation ClipTTS closes and asks for a key at next launch.
+
+On every launch ClipTTS validates the license silently. Without network it still starts if the last check is within 30 days, otherwise it asks you to connect. If seats are exhausted (e.g. the same 1-PC key on a second computer) it says activation limit reached: free a PC from the Polar customer portal, then try activating again.
+
+Lost key? Re-download it from your purchase email or your Polar purchases page — it stays there forever. New PC? Press Deactivate on the old one before activating the new.
+
+### Antivirus / false positives
+ClipTTS is a new, little-known program, so on first launch Windows SmartScreen or some antivirus may show a warning (a false positive): the program reads the clipboard and sits in the tray, and that behavior is often flagged out of caution. There is nothing dangerous in it.
+- **SmartScreen:** click **More info** → **Run anyway**.
+- **Antivirus:** add the ClipTTS folder to its exclusions (or restore the file from quarantine). If you like, you can report the file to the antivirus vendor as a false positive.
+- Download ClipTTS only from the official link you receive with your purchase. Speech synthesis stays fully offline; internet is used only for licensing.
+
+---
+
 ## Technical notes
 
-- ClipTTS is **completely offline**. No data leaves your computer.
+- Speech synthesis is **fully offline**: no text leaves your computer.
+- Only licensing uses internet: one-time activation plus a silent validation on each launch, with a 30-day offline grace.
 - Requires no installation. It's a single executable — click and go.
 - All data (saved pronunciations, chosen theme, speed) stays on your computer.
 - No accounts, logins, or internet connections needed after the first run.
@@ -124,3 +147,7 @@ This is the *interface* language (buttons, popups). The TTS voice language (the 
 
 Website: [https://fabricsoftware.dev](https://fabricsoftware.dev)
 Contact: [support@fabricsoftware.dev](mailto:support@fabricsoftware.dev)
+
+---
+
+Voice engine: Supertonic 3 © Supertone, Inc. — MIT License (open-weight model: https://huggingface.co/Supertone/supertonic-3).

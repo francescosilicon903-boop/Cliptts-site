@@ -111,9 +111,32 @@ Questa è la lingua dell'*interfaccia* (pulsanti, popup). La lingua della voce T
 
 ---
 
+## Licenza
+
+Al primo avvio serve internet una sola volta: inserisci la chiave `CLIP-...` ricevuta via email e premi **Attiva** (nel campo funziona anche il tasto destro → Incolla). Se la chiave è giusta vedi `✓ Licenza attiva` e il programma parte.
+
+Il tastino **LIC** in alto a destra (simmetrico a VIS) apre il pannello licenza: mostra a chi è intestata (nome/email), il prodotto (1 PC o 3 PC), la chiave mascherata e la data dell'ultima verifica. Tre bottoni:
+
+- **Riprova**: forza subito una validazione (utile dopo aver liberato uno slot dal portal).
+- **Cambia chiave**: libera lo slot della chiave attuale (serve internet) e ne chiede una nuova.
+- **Disattiva su questo PC**: libera lo slot (1/3 PC) per spostare il programma — la chiave resta valida. Chiede conferma; dopo la disattivazione ClipTTS si chiude e alla prossima apertura chiede una chiave.
+
+Ad ogni avvio ClipTTS valida la licenza in silenzio. Senza rete parte comunque se l'ultima verifica è entro 30 giorni, altrimenti chiede di collegarti. Se i posti sono finiti (es. stessa chiave 1 PC su un secondo computer) dice `Limite attivazioni raggiunto`: libera un PC dal customer portal Polar e poi riprova ad attivare.
+
+Chiave persa? Riscaricala dall'email di acquisto o dalla tua pagina purchases di Polar — resta lì per sempre. Cambio PC? Premi Disattiva sul vecchio prima di attivare il nuovo.
+
+### Antivirus / falsi positivi
+ClipTTS è un programma nuovo e poco diffuso, quindi alla prima apertura Windows SmartScreen o qualche antivirus può mostrare un avviso (un falso positivo): il programma legge la clipboard e resta nel tray, e questo comportamento viene spesso segnalato per prudenza. Non c'è nulla di pericoloso.
+- **SmartScreen:** clicca **Ulteriori informazioni** → **Esegui comunque**.
+- **Antivirus:** aggiungi la cartella di ClipTTS alle esclusioni (o ripristina il file dalla quarantena). Se vuoi, puoi segnalare il file al produttore dell'antivirus come falso positivo.
+- Scarica ClipTTS solo dal link ufficiale che ricevi con l'acquisto. La sintesi vocale resta tutta offline; internet serve solo per la licenza.
+
+---
+
 ## Note tecniche
 
-- ClipTTS è **completamente offline**. Nessun dato esce dal tuo computer.
+- La sintesi vocale è **completamente offline**: nessun testo esce dal tuo computer.
+- Solo la licenza usa internet: attivazione (una volta) e validazione silenziosa ad ogni avvio, con 30 giorni di tolleranza offline.
 - Non richiede installazione. È un unico eseguibile — clicca e va.
 - Tutti i dati (pronuncie salvate, tema scelto, velocità) rimangono nel tuo computer.
 - Non ci sono account, login, o connessioni internet necessarie dopo il primo avvio.
@@ -124,3 +147,7 @@ Questa è la lingua dell'*interfaccia* (pulsanti, popup). La lingua della voce T
 
 Sito: [https://fabricsoftware.dev](https://fabricsoftware.dev)
 Contatti: [support@fabricsoftware.dev](mailto:support@fabricsoftware.dev)
+
+---
+
+Motore vocale: Supertonic 3 © Supertone, Inc. — MIT License (modello open-weight: https://huggingface.co/Supertone/supertonic-3).
